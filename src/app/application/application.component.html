@@ -1,0 +1,149 @@
+<div class="container-xl">
+	<div class="table-responsive">
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>Manage <b>Applications</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="#addApplicationModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Application</span></a>
+						<a href="#deleteApplicationModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>		
+						<a class="btn btn-warning" (click)="getApplications()"> Get Application</a>				
+					</div>
+				</div>
+			</div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						
+						<th>JobId</th>
+						<th>StudentId</th>
+						<th>ApplicationDate</th>
+						<th>Status</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody *ngFor="let application of applicationList">
+					<tr>
+						<td> {{application.jobId}}</td>
+						<td>{{application.studentId}}</td>
+						<td>{{application.applicationDate}}</td>
+						<td>{{application.status}}</td>
+					
+						<td>
+							<a (click)="editApplication(application)" href="#editApplicationModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+							<a (click)="editApplication(application)" href="#deleteApplicationModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+						</td>
+					</tr>
+				
+				</tbody>
+			</table>
+			<div class="clearfix">
+				<div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+				<ul class="pagination">
+					<li class="page-item disabled"><a href="#">Previous</a></li>
+					<li class="page-item"><a href="#" class="page-link">1</a></li>
+					<li class="page-item"><a href="#" class="page-link">2</a></li>
+					<li class="page-item active"><a href="#" class="page-link">3</a></li>
+					<li class="page-item"><a href="#" class="page-link">4</a></li>
+					<li class="page-item"><a href="#" class="page-link">5</a></li>
+					<li class="page-item"><a href="#" class="page-link">Next</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>        
+</div>
+<!-- Edit Modal HTML -->
+<div id="addApplicationModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="addApplication()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Add Application</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>JobId</label>
+						<input type="number" [(ngModel)]="newApp.jobId" name="jobId" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>StudentId</label>
+						<input type="number" [(ngModel)]="newApp.studentId" name="stuid" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>ApplicationDate</label>
+						<input type="date" name="appdate" [(ngModel)]="newApp.applicationDate" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Status</label>
+						<input name="status" type="text" [(ngModel)]="newApp.status" class="form-control" required>
+					</div>					
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="addbtn" type="submit" class="btn btn-success" value="Add">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editApplicationModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="updateApplicationById()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Edit Application</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>JobId</label>
+						<input name="jobId" type="number" [(ngModel)]="updateApplication.jobId" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>StudentId</label>
+						<input name="stuid" type="number" [(ngModel)]="updateApplication.studentId" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>ApplicationDate</label>
+						<input name="appdate" type="date" name="appdate" [(ngModel)]="updateApplication.applicationDate" class="form-control" required>
+
+					</div>
+					<div class="form-group">
+						<label>Status</label>
+						<input name="status" type="text" [(ngModel)]="updateApplication.status" class="form-control" required>
+					</div>					
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="editbtn" type="submit" class="btn btn-info" value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteApplicationModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="deleteApplicationById()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Delete Application</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<p>Are you sure you want to delete these Applications?</p>
+					<h4 class="text-primary fw-bold"><small>JobId: {{editingApplication?.jobId}}</small></h4>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="deletebtn" type="submit" class="btn btn-danger" value="Delete">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
